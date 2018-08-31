@@ -15,6 +15,10 @@ class hue (
   $zookeeper_rest_hostname = undef,
   $alternatives = '::default',
   $auth = undef,
+  $auth_ldap_base_dn = 'DC=mycompany,DC=com',
+  $auth_ldap_bind_dn = 'CN=ServiceAccount,DC=mycompany,DC=com',
+  $auth_ldap_bind_password = undef,
+  $auth_ldap_url = 'ldap://auth.mycompany.com',
   $db = undef,
   $db_host = 'localhost',
   $db_user = 'hue',
@@ -305,6 +309,17 @@ class hue (
       }
       $auth_properties = {
         'desktop.auth.backend' => 'desktop.auth.backend.SpnegoDjangoBackend',
+      }
+    }
+    'ldap': {
+      $auth_env = {}
+      $auth_properties = {
+        'desktop.auth.backend'       => 'desktop.auth.backend.LdapBackend',
+        'desktop.ldap.base_dn'       => $auth_ldap_base_dn,
+        'desktop.ldap.bind_dn'       => $auth_ldap_bind_dn,
+        'desktop.ldap.bind_password' => $auth_ldap_bind_password,
+        'desktop.ldap.ldap_url'      => $auth_ldap_url,
+        'desktop.ldap.use_start_tls' => "false",
       }
     }
     default: {
