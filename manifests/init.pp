@@ -19,6 +19,7 @@ class hue (
   $auth_ldap_bind_dn = 'CN=ServiceAccount,DC=mycompany,DC=com',
   $auth_ldap_bind_password = undef,
   $auth_ldap_url = 'ldap://auth.mycompany.com',
+  $auth_ldap_nt_domain = 'mycompany.com',
   $db = undef,
   $db_host = 'localhost',
   $db_user = 'hue',
@@ -319,6 +320,7 @@ class hue (
         'desktop.ldap.bind_dn'       => $auth_ldap_bind_dn,
         'desktop.ldap.bind_password' => $auth_ldap_bind_password,
         'desktop.ldap.ldap_url'      => $auth_ldap_url,
+        'desktop.ldap.nt_domain'     => $auth_ldap_nt_domain,
         'desktop.ldap.use_start_tls' => "false",
       }
     }
