@@ -9,6 +9,9 @@ class hue (
   $historyserver_hostname = undef,
   $impala_hostname = undef,
   $oozie_hostname = undef,
+  $sentry_hostname = undef,
+  $sentry_port = '8038',
+  $sentry_conf_dir = '/etc/sentry/conf',
   $yarn_hostname = undef,
   $yarn_hostname2 = undef,
   $zookeeper_hostnames = [],
@@ -222,6 +225,16 @@ class hue (
     $impala_properties = {}
   }
 
+  if $sentry_hostname and !empty($sentry_hostname) {
+    $sentry_properties = {
+      'libsentry.hostname' => ${sentry_hostname},
+      'libsentry.port' => ${sentry_port},
+      'libsentry.sentry_conf_dir' => ${sentry_conf_dir},
+    }
+  } else {
+    $sentry_properties = {}
+  }
+
   if $oozie_hostname and !empty($oozie_hostname) {
     if $https {
       $oozie_url = "https://${oozie_hostname}:11443/oozie"
@@ -334,7 +347,7 @@ class hue (
 
   $_environment = merge($auth_env, $environment)
   $_packages = concat($db_packages, $::hue::package_name)
-  $_properties = merge($base_properties, $auth_properties, $db_properties, $security_properties, $https_properties, $hdfs_properties, $hive_properties, $impala_properties, $oozie_properties, $yarn_properties, $zoo_properties, $properties)
+  $_properties = merge($base_properties, $auth_properties, $db_properties, $security_properties, $https_properties, $hdfs_properties, $hive_properties, $impala_properties, $sentry_properties, $oozie_properties, $yarn_properties, $zoo_properties, $properties)
 
   class { '::hue::install': }
   -> class { '::hue::config': }
