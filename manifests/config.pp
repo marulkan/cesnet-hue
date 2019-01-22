@@ -19,10 +19,19 @@ class hue::config {
   }
 
   if $hue::realm and !empty($hue::realm) {
-    file { $hue::keytab_hue:
-      owner => 'hue',
-      group => 'hue',
-      mode  => '0600',
+    if $hue::keytab_source and !empty($hue::keytab_source) {
+      file { $hue::keytab_hue:
+        owner  => 'hue',
+        group  => 'hue',
+        mode   => '0600',
+        source => $hue::keytab_source,
+      }
+    } else {
+      file { $hue::keytab_hue:
+        owner => 'hue',
+        group => 'hue',
+        mode  => '0600',
+      }
     }
   }
 

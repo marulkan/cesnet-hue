@@ -40,6 +40,7 @@ class hue (
   $https_passphrase = undef,
   $keytab_hue = '/etc/security/keytab/hue.service.keytab',
   $keytab_spnego = '/etc/security/keytab/hue-http.service.keytab',
+  $keytab_source = undef,
   $package_name = $::hue::params::package_name,
   $service_name = $::hue::params::service_name,
   $properties = undef,
